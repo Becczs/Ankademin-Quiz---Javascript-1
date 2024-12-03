@@ -1,0 +1,68 @@
+body {
+  margin: 0px;
+  padding:0px;
+  box-sizing: border-box;
+  background-color: #9699FE;
+
+  &.darkMode {
+    background-color: #090B3D;
+    color: #FFFF;
+    #themeToggle {
+      background-color: #32566A;
+      color:white;
+      border:none;
+      border-radius: 50px;
+      padding:7px 14px;
+      font-weight: bold;
+    }
+    h1{
+      color:#FFFF;
+    }
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      font-size: 4.5rem;
+      color:#32566A
+    }
+    #themeToggle {
+      background-color: #FFFF;
+      color:#32566A;
+      font-weight: bold;
+      border:none;
+      border-radius: 50px;
+      padding:7px 14px;
+    }
+  }
+  
+  .quizContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    #letsPlayBtn {
+      width: 300px;
+      height: 280px;
+      background-color: #32566A;
+      color:#FFFF;
+      font-size: 3rem;
+      border:none;
+      border-radius: 50%;
+    }
+  }
+
+  .hidden { 
+    display: none;
+  }
+  
+
+}
+
+
+
