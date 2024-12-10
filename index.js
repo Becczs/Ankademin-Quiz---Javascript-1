@@ -20,24 +20,65 @@ document.querySelector('#themeToggle').addEventListener('click', () => {
 //skapa quizfrågorna
 const questions = [
   {
-    question: 'Javascript är ett programmeringsspråk?',
+    question: 'Är Australien både ett land och en kontinent?',
     type: 'trueFalse',
     options: ['True', 'False'],
     correctAnswer: 'True'
   },
   {
-    question: 'Vilket av följande är ett CSS-ramverk?',
+    question: 'Vilken av följande städer är känd för sina kanaler?',
     type: 'radiobtn',
-    options: ['React', 'Bootstrap'],
-    correctAnswer: 'Bootstrap'
+    options: ['Venedig', 'Paris', 'Berlin'],
+    correctAnswer: 'Venedig'
   },
   {
-    question: 'Vilka av följande är JavaScript-ramverk?',
+    question: 'Vilka av följande är de största floderna i världen?',
     type: 'checkbox',
-    options: ['Flask', 'Vue.js', 'Django', 'Angular'],
-    correctAnswer: 'Vue.js'
+    options: ['Amazonas', 'Nilen', 'Mississippi', 'Yangtze'],
+    correctAnswer: 'Amazonas, Nilen'
   },
-
+  {
+    question: 'Är Mount Everest världens högsta berg?',
+    type: 'trueFalse',
+    options: ['True', 'False'],
+    correctAnswer: 'True'
+  },
+  {
+    question: 'Vilket av följande länder är känt för sina tulpaner?',
+    type: 'radiobtn',
+    options: ['Holland', 'Kanada', 'Italien'],
+    correctAnswer: 'Holland'
+  },
+  {
+    question: 'Vilken stad har flest invånare i världen?',
+    type: 'radiobtn',
+    options: ['Tokio', 'Shanghai', 'New York'],
+    correctAnswer: 'Tokio'
+  },
+  {
+    question: 'Vilken av följande öar tillhör inte Indonesien?',
+    type: 'checkbox',
+    options: ['Bali', 'Sumatra', 'Sicilien', 'Java'],
+    correctAnswer: 'Sicilien'
+  },
+  {
+    question: 'Vilket land har flest antal tidszoner?',
+    type: 'radiobtn',
+    options: ['USA', 'Ryssland', 'Kina'],
+    correctAnswer: 'Ryssland'
+  },
+  {
+    question: 'Är Sahara en regnskog?',
+    type: 'trueFalse',
+    options: ['True', 'False'],
+    correctAnswer: 'False'
+  },
+  {
+    question: 'Vilken av följande byggnader är den högsta i Europa?',
+    type: 'radiobtn',
+    options: ['Eiffeltornet', 'Shard', 'Ostankino Tower'],
+    correctAnswer: 'Ostankino Tower'
+  }
 ]
 
 // Starta quizet
@@ -52,7 +93,7 @@ letsPlayBtn.addEventListener('click', () => {
 
 let currentQuestion = 0;
 let score = 0;
-let totalPoints = 0;
+let userAnswers = []
 
 
 function manageQuestion() {
@@ -112,14 +153,97 @@ function manageQuestion() {
 
 }
 
+
+
 nextBtn.addEventListener('click', () => {
+  //hämtya icheckade svar för frågan
+  const selected = document.querySelectorAll(`input[name='question ${currentQuestion + 1}']:checked`)
+  //om inget är icheckat, kör en pop up alert
+  if (selected.length === 0) {
+    alert('Du måste svara på denna fråga för att komma vidare till nästa !')
+    return;
+  }
+  //hämta användarens svar 
+  let selectedAnswer = [];
+  selected.forEach(option => {
+    selectedAnswer.push(option.value)
+  })
+
+  //kolla om svaret är korrekt
+  const correctAnswer = questions[currentQuestion].correctAnswer
+  let isCorrect = false
+
+  if (questions[currentQuestion].type === 'checkbox') {
+    //för checkbox, kolla om rätt svar valts
+    if (selectedAnswer.includes(correctAnswer)) {
+      isCorrect = true
+    }
+  } else {
+    //för trueFalse/radiobtn kolla om rätt svar valts
+    if (selectedAnswer[0] === correctAnswer) {
+      isCorrect = true
+    }
+  }
+  //lägg till användarens svar i en array
+  userAnswers.push({
+    question: questions[currentQuestion].question,
+    userAnswer: selectedAnswer,
+    correctAnswer: correctAnswer,
+    isCorrect: isCorrect
+  })
+
+  //om användaren svarat rätt så ökas poäng med 1
+  if (isCorrect) {
+    score++
+  }
+
+
   //gå vidare till nästa fråga
   currentQuestion++
+  if (currentQuestion < questions.length) {
+    manageQuestion()
+  } else {
+    //när frågorna är slut, visa resultat
+    showResults()
+  }
+})
+
+
+// Visa resultatet
+function showResults() {
+  resultSection.classList.remove('hidden')
+  points.textContent = `Du fick ${score} av ${questions.length} rätt!`;
+
+  feedback.innerHTML = '';
+
+  // kollar igenom svar i usersAnswers, visar frågan, svaret och det är rätt eller fel.
+  for (let i = 0; i < userAnswers.length; i++) {
+    const answer = userAnswers[i];
+    const resultText = answer.isCorrect ? 'Rätt svar!' : 'Fel svar..';
+    feedback.innerHTML +=
+      `<p><strong>${answer.question}</strong></p>
+      <p>${resultText}</p>
+      <p>Ditt svar: ${answer.userAnswer}</p>
+      <p>Rätt svar: ${answer.correctAnswer}</p>`
+  }
+
+  questionSection.classList.add('hidden')
+  nextBtn.classList.add('hidden')
+  restartBtn.classList.remove('hidden')
+}
+
+// // Starta om quizet
+restartBtn.addEventListener('click', () => {
+
+  resultSection.classList.add('hidden')
+  startPage.classList.add('hidden')
+  questionSection.classList.remove('hidden')
+  nextBtn.classList.remove('hidden')
+  currentQuestion = 0
+  score = 0
+  userAnswers = []
   manageQuestion()
 });
-
-
-
 
 // function manageQuestion() {
 //   let questions = document.querySelectorAll(".questionSection fieldset");
@@ -146,28 +270,4 @@ nextBtn.addEventListener('click', () => {
 //     })
 //   })
 
-//   // Visa resultatet
-//   resultSection.classList.remove('hidden')
-//   points.textContent = `Du fick ${score} av ${totalPoints} rätt!`;
-//   feedback.textContent = ``
-//   nextBtn.classList.add('hidden')
-//   restartBtn.classList.remove('hidden')
-// };
 
-// nextBtn.addEventListener('click', () => {
-//   //gå vidare till nästa fråga
-//   currentQuestion++
-//   manageQuestion()
-// });
-
-
-
-// // Starta om quizet
-// restartBtn.addEventListener('click', () => {
-
-//   resultSection.classList.add('hidden')
-//   startPage.classList.add('hidden')
-//   nextBtn.classList.remove('hidden')
-//   currentQuestion = 0
-//   manageQuestion()
-// });

@@ -55,8 +55,17 @@ body {
       border:none;
       border-radius: 50%;
     }
+
+    #resultSection {
+      text-align: center;
+      width: 80%;
+      height: 70%;
+    }
+
+  }
+
     #nextBtn {
-      width: 70px;
+      width: 60px;
       height: 50px;
       background-color: #32566A;
       color:#FFFF;
@@ -69,10 +78,6 @@ body {
   .hidden { 
     display: none;
   }
-  
-
-}
-
 
 
 

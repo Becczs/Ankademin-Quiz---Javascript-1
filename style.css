@@ -54,8 +54,13 @@ body .quizContainer #letsPlayBtn {
   border: none;
   border-radius: 50%;
 }
-body .quizContainer #nextBtn {
-  width: 70px;
+body .quizContainer #resultSection {
+  text-align: center;
+  width: 80%;
+  height: 70%;
+}
+body #nextBtn {
+  width: 60px;
   height: 50px;
   background-color: #32566A;
   color: white;
@@ -63,6 +68,7 @@ body .quizContainer #nextBtn {
   border: none;
   border-radius: 20px;
 }
-body .hidden {
+
+.hidden {
   display: none;
 }/*# sourceMappingURL=style.css.map */
