@@ -29,7 +29,7 @@ body header {
   align-items: center;
 }
 body header h1 {
-  font-size: 4.5rem;
+  font-size: 5.5rem;
   color: #32566A;
 }
 body header #themeToggle {
@@ -81,7 +81,9 @@ body .quizContainer #resultSection {
   width: 80%;
   height: 70%;
 }
-
-.hidden {
+body .quizContainer #resultSection #score > p {
+  font-size: 1.2rem;
+}
+body .hidden {
   display: none;
 }/*# sourceMappingURL=style.css.map */

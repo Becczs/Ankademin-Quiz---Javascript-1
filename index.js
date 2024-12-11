@@ -102,7 +102,7 @@ function manageQuestion() {
   questionContainer.innerHTML = ''
   //hämta frågan från questions
   const eachQuestion = questions[currentQuestion]
-  //skapa HTML element där frågorna komemr att visas
+  //skapa fieldset element där frågorna komemr att visas
   const fieldset = document.createElement('fieldset')
   //skriver ut vilken fråga vi är på
   const h3 = document.createElement('h3')
@@ -176,7 +176,7 @@ nextBtn.addEventListener('click', () => {
     // kolla om användaren valt lika många rätta som finns för frågan 
     if (selectedAnswer.length === correctAnswersArr.length) {
       //hålla koll på alla rätta svar
-      let correctCount = true
+      let correctCount = 0
       //för varje valt svar, kollar vi om den finns med i correctAnswersArr och isåfall öka med 1
       selectedAnswer.forEach(answer => {
         if (correctAnswersArr.includes(answer)) {
@@ -252,10 +252,9 @@ function showResults() {
   // kollar igenom svar i usersAnswers, visar frågan, svaret och det är rätt eller fel.
   for (let i = 0; i < userAnswers.length; i++) {
     const answer = userAnswers[i];
-    const resultText = answer.isCorrect ? "<p style='color:#00FF2A;'> Rätt svar!</p>" : "<p style='color:#ea0202;'> Fel svar..</p>";
     feedback.innerHTML +=
       `<p><strong>${answer.question}</strong></p>
-      <p>${resultText}</p>
+      <p style='color:${answer.isCorrect ? '#00FF2A' : '#ea0202'};'>${answer.isCorrect ? 'Rätt svar!' : 'Fel svar..'}</p>
       <p>Ditt svar: ${answer.userAnswer}</p>
       <p>Rätt svar: ${answer.correctAnswer}</p>`
   }
