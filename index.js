@@ -52,8 +52,8 @@ const questions = [
   {
     question: 'Vilken stad har flest invånare i världen?',
     type: 'radiobtn',
-    options: ['Tokio', 'Shanghai', 'New York'],
-    correctAnswer: 'Tokio'
+    options: ['Tokyo', 'Shanghai', 'New York'],
+    correctAnswer: 'Tokyo'
   },
   {
     question: 'Vilken av följande öar tillhör inte Indonesien?',
@@ -114,38 +114,31 @@ function manageQuestion() {
   fieldset.append(h3, p)
 
   //skapa olika svarsalternativ beroende på typ av fråga
-  if (eachQuestion.type === 'trueFalse') {
+  if (eachQuestion.type === 'checkbox') {
+
     eachQuestion.options.forEach(option => {
-      const label = document.createElement('label')
-      label.textContent = option
-      const input = document.createElement('input')
-      input.type = 'radio'
-      input.name = `question ${currentQuestion + 1}`
-      input.value = option
-      label.append(input)
-      fieldset.append(label)
-    })
-  } else if (eachQuestion.type === 'radiobtn') {
-    eachQuestion.options.forEach(option => {
-      const label = document.createElement('label')
-      label.textContent = option
-      const input = document.createElement('input')
-      input.type = 'radio'
-      input.name = `question ${currentQuestion + 1}`
-      input.value = option
-      label.append(input)
-      fieldset.append(label)
-    })
-  } else if (eachQuestion.type === 'checkbox') {
-    eachQuestion.options.forEach(option => {
+
       const label = document.createElement('label')
       label.textContent = option
       const input = document.createElement('input')
       input.type = 'checkbox'
       input.name = `question ${currentQuestion + 1}`
       input.value = option
-      label.append(input)
-      fieldset.append(label)
+
+      fieldset.append(input, label)
+    })
+  } else if (eachQuestion.type === 'trueFalse' || 'radiobtn') {
+
+    eachQuestion.options.forEach(option => {
+
+      const label = document.createElement('label')
+      label.textContent = option
+      const input = document.createElement('input')
+      input.type = 'radio'
+      input.name = `question ${currentQuestion + 1}`
+      input.value = option
+
+      fieldset.append(input, label)
     })
   }
 
@@ -156,35 +149,54 @@ function manageQuestion() {
 
 
 nextBtn.addEventListener('click', () => {
-  //hämtya icheckade svar för frågan
+  //hämtya icheckade svar för currentquestion
   const selected = document.querySelectorAll(`input[name='question ${currentQuestion + 1}']:checked`)
   //om inget är icheckat, kör en pop up alert
   if (selected.length === 0) {
     alert('Du måste svara på denna fråga för att komma vidare till nästa !')
     return;
   }
-  //hämta användarens svar 
+  //skpar en array där vi sparar användarens svar 
   let selectedAnswer = [];
+  //går igenom varje val och lägger det valet i arrayen
   selected.forEach(option => {
     selectedAnswer.push(option.value)
   })
 
-  //kolla om svaret är korrekt
+  //kolla om svaret på frågan är rätt
   const correctAnswer = questions[currentQuestion].correctAnswer
+  //variabel för att hålla koll på om frågan är rätt elelr ej
   let isCorrect = false
 
+  // om frågan är 'checkbox'
   if (questions[currentQuestion].type === 'checkbox') {
-    //för checkbox, kolla om rätt svar valts
-    if (selectedAnswer.includes(correctAnswer)) {
-      isCorrect = true
+    // splitta en string till en array då vi har flera rätta svar
+    const correctAnswersArr = correctAnswer.split(', ')
+
+    // kolla om användaren valt lika många rätta som finns för frågan 
+    if (selectedAnswer.length === correctAnswersArr.length) {
+      //hålla koll på alla rätta svar
+      let correctCount = true
+      //för varje valt svar, kollar vi om den finns med i correctAnswersArr och isåfall öka med 1
+      selectedAnswer.forEach(answer => {
+        if (correctAnswersArr.includes(answer)) {
+          correctCount++
+        }
+      })
+
+      // Om alla valda svar är korrekta
+      if (correctCount === selectedAnswer.length) {
+        isCorrect = true;
+      }
     }
   } else {
-    //för trueFalse/radiobtn kolla om rätt svar valts
+    // Om radiobt eller truefalse, jämför det (enda) valda svaret med det rätta svaret
     if (selectedAnswer[0] === correctAnswer) {
       isCorrect = true
     }
   }
-  //lägg till användarens svar i en array
+
+  //lägg till fråga, rätta svaret och användarens svar (och om correct) i arrayen userAnswers.
   userAnswers.push({
     question: questions[currentQuestion].question,
     userAnswer: selectedAnswer,
@@ -244,30 +256,4 @@ restartBtn.addEventListener('click', () => {
   userAnswers = []
   manageQuestion()
 });
-
-// function manageQuestion() {
-//   let questions = document.querySelectorAll(".questionSection fieldset");
-//   questions.forEach(question => question.classList.add('hidden'))
-
-//   if (currentQuestion < questions.length) {
-//     questions[currentQuestion].classList.remove('hidden')
-
-//   } else {
-//     showResults()
-//   }
-// }
-
-// /*hämta alla frågor och räkna ut dina poäng,
-// rätt på 1 fråga = 1 poäng*/
-// function showResults() {
-//   totalPoints = questions.length
-//   questions.forEach(fieldset => {
-//     const inputs = fieldset.querySelectorAll("input");
-//     inputs.forEach(input => {
-//       if (input.checked && input.value === "true") {
-//         score++;
-//       }
-//     })
-//   })
-
 
