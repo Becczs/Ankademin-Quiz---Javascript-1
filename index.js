@@ -22,8 +22,8 @@ const questions = [
   {
     question: 'Är Australien både ett land och en kontinent?',
     type: 'trueFalse',
-    options: ['True', 'False'],
-    correctAnswer: 'True'
+    options: ['Sant', 'Falskt'],
+    correctAnswer: 'Sant'
   },
   {
     question: 'Vilken av följande städer är känd för sina kanaler?',
@@ -40,8 +40,8 @@ const questions = [
   {
     question: 'Är Mount Everest världens högsta berg?',
     type: 'trueFalse',
-    options: ['True', 'False'],
-    correctAnswer: 'True'
+    options: ['Sant', 'Falskt'],
+    correctAnswer: 'Sant'
   },
   {
     question: 'Vilket av följande länder är känt för sina tulpaner?',
@@ -70,8 +70,8 @@ const questions = [
   {
     question: 'Är Sahara en regnskog?',
     type: 'trueFalse',
-    options: ['True', 'False'],
-    correctAnswer: 'False'
+    options: ['Sant', 'Falskt'],
+    correctAnswer: 'Falskt'
   },
   {
     question: 'Vilken av följande byggnader är den högsta i Europa?',
@@ -103,7 +103,7 @@ function manageQuestion() {
   //hämta frågan från questions
   const eachQuestion = questions[currentQuestion]
   //skapa HTML element där frågorna komemr att visas
-  const fieldset = document.createElement('h3')
+  const fieldset = document.createElement('fieldset')
   //skriver ut vilken fråga vi är på
   const h3 = document.createElement('h3')
   h3.textContent = `Fråga ${currentQuestion + 1}`
@@ -225,8 +225,10 @@ nextBtn.addEventListener('click', () => {
 function showResults() {
   resultSection.classList.remove('hidden')
 
+  //räkna ut poäng i procent 
   finalScore = (score / questions.length) * 100
   let feedbackText = ''
+  let textColor = ''
 
   if (finalScore < 50) {
     feedbackText = 'Inte godkänt, bättre lycka nästa gång..'
@@ -270,6 +272,7 @@ restartBtn.addEventListener('click', () => {
   startPage.classList.add('hidden')
   questionSection.classList.remove('hidden')
   nextBtn.classList.remove('hidden')
+  //reset värden
   currentQuestion = 0
   score = 0
   userAnswers = []
