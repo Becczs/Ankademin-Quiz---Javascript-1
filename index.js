@@ -237,11 +237,11 @@ function showResults() {
   } else if (finalScore >= 50 && finalScore <= 75) {
     feedbackText = 'Bra jobbat, men du kan bättre!'
     //orange
-    textColor = '#ff8800'
+    textColor = '#DE6F07'
   } else {
     feedbackText = 'Snyggt, MVG!'
     //grön
-    textColor = '#00FF2A'
+    textColor = '#048204'
   }
 
   points.innerHTML = `Du fick ${score} av ${questions.length} rätt
@@ -254,7 +254,7 @@ function showResults() {
     const answer = userAnswers[i];
     feedback.innerHTML +=
       `<p><strong>${answer.question}</strong></p>
-      <p style='color:${answer.isCorrect ? '#00FF2A' : '#ea0202'};'>${answer.isCorrect ? 'Rätt svar!' : 'Fel svar..'}</p>
+      <p style='color:${answer.isCorrect ? '#048204' : '#ea0202'};'>${answer.isCorrect ? 'Rätt svar!' : 'Fel svar..'}</p>
       <p>Ditt svar: ${answer.userAnswer}</p>
       <p>Rätt svar: ${answer.correctAnswer}</p>`
   }
