@@ -224,14 +224,33 @@ nextBtn.addEventListener('click', () => {
 // Visa resultatet
 function showResults() {
   resultSection.classList.remove('hidden')
-  points.textContent = `Du fick ${score} av ${questions.length} rätt!`;
+
+  finalScore = (score / questions.length) * 100
+  let feedbackText = ''
+
+  if (finalScore < 50) {
+    feedbackText = 'Inte godkänt, bättre lycka nästa gång..'
+    //färga text röd
+    textColor = '#ea0202';
+  } else if (finalScore >= 50 && finalScore <= 75) {
+    feedbackText = 'Bra jobbat, men du kan bättre!'
+    //orange
+    textColor = '#ff8800'
+  } else {
+    feedbackText = 'Snyggt, MVG!'
+    //grön
+    textColor = '#00FF2A'
+  }
+
+  points.innerHTML = `Du fick ${score} av ${questions.length} rätt
+  <p style='color: ${textColor}'>${feedbackText}</p>`;
 
   feedback.innerHTML = '';
 
   // kollar igenom svar i usersAnswers, visar frågan, svaret och det är rätt eller fel.
   for (let i = 0; i < userAnswers.length; i++) {
     const answer = userAnswers[i];
-    const resultText = answer.isCorrect ? 'Rätt svar!' : 'Fel svar..';
+    const resultText = answer.isCorrect ? "<p style='color:#00FF2A;'> Rätt svar!</p>" : "<p style='color:#ea0202;'> Fel svar..</p>";
     feedback.innerHTML +=
       `<p><strong>${answer.question}</strong></p>
       <p>${resultText}</p>
